@@ -1,0 +1,26 @@
+---
+- name: Install Apache and upload WebPage
+  hosts: "all"
+  become: yes
+  vars:
+    source_file: /home/andrey/.ansible/index.html
+    destination_file: /var/www/html
+  tasks:
+    - name: Install Apache
+      apt: name=apache2 state=latest
+
+    - name: Copy WebPage to serv
+      copy: src={{ source_file }} dest={{ destination_file }} mode=0555
+      notify: restart apache
+
+    - name: start Web and restart
+      ansible.builtin.service:
+        name: apache2
+        state: started
+
+  handlers:
+    - name: restart apache
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
+

@@ -1,0 +1,18 @@
+[server_linux1]
+linux1 ansible_host=194.85.175.219 owner=Vasya
+
+[server_linux2]
+linux2 ansible_host=194.85.175.220 owner=Yura
+
+[server_centos]
+centos ansible_host=194.85.175.221 owner=Kolya
+
+[server_all:children]
+server_linux1
+server_linux2
+server_centos
+
+[server_all:vars]
+ansible_user=user
+ansible_ssh_private_key_file=/home/andrey/.shh/id_25519
+

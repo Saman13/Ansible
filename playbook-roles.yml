@@ -1,0 +1,6 @@
+---
+- name: Install Apache and upload WebPage
+  hosts: "{{ MyHosts }}"
+  become: yes
+  roles:
+    - deploy_Apache

@@ -1,0 +1,26 @@
+---
+# tasks file for deploy_Apache
+-
+- block: #For Ubuntu
+  - name: Install Apache to Ubuntu
+    apt:
+      name: apache2
+      state: latest
+  - name: start Webserv
+    service: name=apache2 state=started
+  when: ansible_os_family == "Debian"
+
+- block: #For RedHat
+  - name: Install Apache to Centos
+    yum: name=httpd state=latest
+  - name: Запустим Apache
+    service:
+      name: httpd
+      state: started
+  when: ansible_os_family == "RedHat"
+
+- name: Copy WebPage to serv
+  template: src=index.j2 dest={{ destination_file }}/index.html
+  notify:
+    - restart apache Debian
+    - restart apache RedHat

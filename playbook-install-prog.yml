@@ -1,0 +1,16 @@
+---
+- name: Install Apache and upload WebPage
+  hosts: "all"
+  become: yes
+  tasks:
+    - block: #For Ubuntu
+      - name: Install nano to Debian
+        apt:
+          name: nano
+          state: latest
+      when: ansible_os_family == "Debian"
+
+    - block: #For RedHat
+      - name: Install nano to RedHat
+        yum: name=nano state=latest
+      when: ansible_os_family == "RedHat"
